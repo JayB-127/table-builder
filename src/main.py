@@ -28,6 +28,28 @@ class Table:
             print(border.format(borderType="-"))
 
 
+    def addRow(self, row):
+        #TODO: sanitisation to ensure it contains valid amount of cols
+        #TODO: add as bottom row (further update to insert in middle)
+        #TODO: update self.rowNo value
+        pass
+
+    def addColumn(self, col: str):
+        #TODO: give empty values for in rows
+        #TODO: update self.colNo value
+        pass
+
+    def removeRow(self, rowIndex: int):
+        #TODO: remove row
+        #TODO: update self.rowNo value
+        pass
+
+    def removeCol(self, colIndex: int):
+        #TODO: remove col
+        #TODO: update self.colNo value
+        pass
+
+
 
 table = Table(['fname', 'lname'],
               [['john', 'smith', '40'],
@@ -36,9 +58,9 @@ table = Table(['fname', 'lname'],
 
 
 
-#TODO: insert into table
-#TODO: delete from table
-#TODO: selectable border lines (e.g., =, -, ~)
+#TODO: indexing specific cells (could operator overload [])
+#TODO: selectable border lines (e.g., =, -, ~) - optional param in build()
+#TODO: change border line of exisiting table
 #TODO: justify values in rows left/right/centre
 #TODO: different types of tables (e.g., compact has no border in between rows)
 #TODO: multiline values (i.e., wrapping)
