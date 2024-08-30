@@ -1,3 +1,3 @@
 ### python package for tabulating key-values
 
-further doc coming soon after development...
+API doc coming soon
