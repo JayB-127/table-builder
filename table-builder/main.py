@@ -60,12 +60,21 @@ class Table:
 
     def edit_cell(self, colIndex: int, rowIndex: int, newValue) -> Self:
         #TODO: index rows and cols, replacing value with new value
+        #TODO: would have to recalculate cell widths
         return self
     
 
-    def to_string(self):
-        #TODO: print out string stating colNo, rowNo, and data
+    def set_border_line(self, border_type: str) -> Self:
         pass
+
+    def justify_values(self, justification: str) -> Self:
+        pass
+    
+
+    def to_string(self) -> str:
+        #TODO: print out string stating colNo, rowNo, and data
+        tableString = ""
+        return tableString
 
 
 table = Table(['fname', 'lname', 'age'],
