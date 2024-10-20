@@ -33,12 +33,14 @@ class Table:
     def show(self) -> Self:
 
         # find max cell width per column
+        # TODO: this can be optimised
+        # could Dask run this in parallel?
         colWidths = []
         for i in range(self.num_cols):
             widths = []
             for row in self.__get_rows():
                 widths.append(len(str(row[i])))
-            widths.append(len(str(self.__get_cols())))
+            widths.append(len(str(self.__get_cols()[i])))
             colWidths.append(max(widths))
 
         # create formattings
@@ -46,10 +48,11 @@ class Table:
         values = "|" + "|".join(" {:<%d} " % colWidth for colWidth in colWidths) + "|"
 
         # TODO: create table in one string using \n so we only print once
+        # can we use the to_string() func for this?
         print(border.format(borderType="="))
         print(values.format(*self.__get_cols())) # unpacking col values
         print(border.format(borderType="="))
-        for row in self.rows:
+        for row in self.__get_rows():
             print(values.format(*row))
             print(border.format(borderType="-"))
 
@@ -69,10 +72,10 @@ class Table:
         cols.append(col)
         self.__set_cols(cols)
 
-        for row in self.__get_rows():
-            row.append('')
+        rows = self.__get_rows()
+        for i in range(len(rows)):
+            rows[i].append(values[i])
 
-        #TODO: update self.colNo value
         return self
 
     def remove_col(self, colIndex: int) -> Self:
@@ -108,7 +111,7 @@ class Table:
     
 
     def to_string(self) -> str:
-        tableString = f'Table | shape: ({self.num_rows}, {self.cols}), rows: {self.rows}, cols: {self.cols}' # TODO: use getters and setters
+        tableString = f'{self} | shape: ({self.num_rows}, {self.num_cols}), rows: {self.rows}, cols: {self.cols}' # TODO: use getters and setters
         print(tableString)
         return tableString
 
@@ -117,12 +120,13 @@ class Table:
 table = Table(['fname', 'lname', 'age'],
               [['john', 'smith', 40],
                ['jane', 'doe', 5],
-               ['joe', 'bloggs', 23]]).show().add_column('test')
-
+               ['joe', 'bloggs', 23]])
 table.show()
+table.add_column(col='gender', values=['male', 'female', 'male'])
+table.show()
+table.to_string()
 
-#TODO: build() sets cols and rows (and shows)
-#TODO: show() actually prints the table
+#TODO: build() sets cols and rows (and shows) and show() just prints the table
 
 
 #TODO: what if data given is not square (num of cols doesnt match width of rows)
