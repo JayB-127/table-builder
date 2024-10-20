@@ -14,16 +14,20 @@ class Table:
     # setters and getters -
     def __set_cols(self, cols: list) -> None:
         self.cols = cols
+        self.num_cols += 1
 
     def __get_cols(self) -> list:
         return self.cols
 
     def __set_rows(self, rows: list):
         self.rows = rows
+        self.num_rows = len(self.rows)
 
     def __get_rows(self):
         return self.rows
-
+    
+    def __get_num_rows():
+        pass
 
     # instance methods -
     def show(self) -> Self:
@@ -32,7 +36,7 @@ class Table:
         colWidths = []
         for i in range(self.num_cols):
             widths = []
-            for row in self.rows:
+            for row in self.__get_rows():
                 widths.append(len(str(row[i])))
             widths.append(len(str(self.__get_cols())))
             colWidths.append(max(widths))
@@ -41,6 +45,7 @@ class Table:
         border = "+" + "+".join("{borderType}"*(colWidth + 2) for colWidth in colWidths) + "+"
         values = "|" + "|".join(" {:<%d} " % colWidth for colWidth in colWidths) + "|"
 
+        # TODO: create table in one string using \n so we only print once
         print(border.format(borderType="="))
         print(values.format(*self.__get_cols())) # unpacking col values
         print(border.format(borderType="="))
@@ -53,14 +58,16 @@ class Table:
 
     def add_column(self, col: str, values: list = []) -> Self:
         # empty values if none passed
+        # TODO: if len(values) < len(self.cols), fill with empty values
+        # TODO: should this be NaN?
         if values == []:
             values = [' ']*self.num_rows
 
         # update cols (append on right)
         # TODO: ability to add into certain index
-        # self.cols.append(col)
         cols = self.__get_cols()
-        self.__set_cols(cols.append(col))
+        cols.append(col)
+        self.__set_cols(cols)
 
         for row in self.__get_rows():
             row.append('')
@@ -102,6 +109,7 @@ class Table:
 
     def to_string(self) -> str:
         tableString = f'Table | shape: ({self.num_rows}, {self.cols}), rows: {self.rows}, cols: {self.cols}' # TODO: use getters and setters
+        print(tableString)
         return tableString
 
 
